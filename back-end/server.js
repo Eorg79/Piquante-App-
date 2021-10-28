@@ -1,6 +1,6 @@
 const http = require('http');
 const app = require('./app');
-require('./models/dbConfig');
+//require('./models/dbConfig');
 
 //renvoi d'un port au format approprié
 const normalizePort = val => {

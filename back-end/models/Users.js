@@ -1,22 +1,13 @@
-const mongoose =require("mongoose");
 
-const User = mongoose.model(
-    "piiquante-api",
-    {
-        email: {
-            type: String,
-            required: true
-        },
-        password: {
-            type: String,
-            required: true
-        },
-        date: {
-            type: Date,
-            default: Date.now
-        }
-    },
-    "users"
-);
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
-module.exports = { User };
+const userSchema = mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  date: { type: Date, default: Date.now }
+});
+
+userSchema.plugin(uniqueValidator);
+
+module.exports = mongoose.model('User', userSchema);

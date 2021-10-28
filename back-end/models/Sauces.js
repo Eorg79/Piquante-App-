@@ -1,7 +1,6 @@
-const mongoose =require("mongoose");
+const mongoose =require('mongoose');
 
-const Sauce = mongoose.model(
-    "piiquante-api",
+const sauceSchema = mongoose.Schema(
     {
         userId: {
             type: String,
@@ -34,22 +33,22 @@ const Sauce = mongoose.model(
             },
         likes: {
             type: Number,
-            required: true
+            default: 0
             },
         dislikes: {
             type: Number,
-            required: true
+            default: 0
             },
-        usersLiked: {
-            type: [ "String <userId>" ],
-            required: true
-            },
-        usersDisliked: {
-            type: [ "String <userId>" ],
-            required: true
-            },
+        usersLiked: [{
+            type: String,
+            default: [] 
+            }],
+        usersDisliked: [{
+            type: String,
+            default: [] 
+            }],
     },
-    "sauces"
+
 );
 
-module.exports = { Sauce };
+module.exports = mongoose.model('Sauce', sauceSchema);

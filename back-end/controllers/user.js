@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models/Users');
+//const cryptoJs = require('cryto-js');
+const User = require('../models/Users');
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -40,3 +41,17 @@ exports.signup = (req, res, next) => {
       })
       .catch(error => res.status(500).json({ error }));
   };
+
+
+  /*
+  DANS ton controller tu importes crypto-js après l'avoir installé avec npm bien sur.
+
+  Pour chiffrer l'email dans la base de donnée :
+//chiffrer l'email dans la base de donnée (dans signup)
+const emailCryptoJs = cryptojs.HmacSHA512(req.body.email, `${process.env.CRYPTOJS_RANDOM_SECRET_KEY}`).toString();
+
+//pour déchiffrer le mail après l'avoir cherché dans mongoDB
+const emailCryptoJs = cryptojs.HmacSHA512(req.body.email, `${process.env.CRYPTOJS_RANDOM_SECRET_KEY}`).toString();
+
+Le HmacSHA512 c'est l'ago de chriffrement , ça serait le meilleur.
+*/
