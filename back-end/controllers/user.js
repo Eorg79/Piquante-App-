@@ -1,13 +1,14 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-//const cryptoJs = require('cryto-js');
+const cryptojs = require('crypto-js');
 const User = require('../models/Users');
 
 exports.signup = (req, res, next) => {
+    const Email = cryptojs.HmacSHA512(req.body.email, `${process.env.MAIL_KEY}`).toString();
     bcrypt.hash(req.body.password, 10)
       .then(hash => {
         const user = new User({
-          email: req.body.email,
+          email: Email,
           password: hash
         });
         user.save()
@@ -18,7 +19,8 @@ exports.signup = (req, res, next) => {
   };
 
   exports.login = (req, res, next) => {
-    User.findOne({ email: req.body.email })
+    const ResearchedEmail = cryptojs.HmacSHA512(req.body.email, `${process.env.MAIL_KEY}`).toString();
+    User.findOne({ email: ResearchedEmail })
       .then(user => {
         if (!user) {
           return res.status(401).json({ error: 'Utilisateur non trouvé !' });
@@ -32,8 +34,8 @@ exports.signup = (req, res, next) => {
               userId: user._id,
               token: jwt.sign(
                 { userId: user._id },
-                'RANDOM_TOKEN_SECRET',
-                { expiresIn: '24h' }
+                `${process.env.JWT_USER_KEY}`,
+                { expiresIn: '8h' }
               )
             });
           })
@@ -41,17 +43,3 @@ exports.signup = (req, res, next) => {
       })
       .catch(error => res.status(500).json({ error }));
   };
-
-
-  /*
-  DANS ton controller tu importes crypto-js après l'avoir installé avec npm bien sur.
-
-  Pour chiffrer l'email dans la base de donnée :
-//chiffrer l'email dans la base de donnée (dans signup)
-const emailCryptoJs = cryptojs.HmacSHA512(req.body.email, `${process.env.CRYPTOJS_RANDOM_SECRET_KEY}`).toString();
-
-//pour déchiffrer le mail après l'avoir cherché dans mongoDB
-const emailCryptoJs = cryptojs.HmacSHA512(req.body.email, `${process.env.CRYPTOJS_RANDOM_SECRET_KEY}`).toString();
-
-Le HmacSHA512 c'est l'ago de chriffrement , ça serait le meilleur.
-*/
