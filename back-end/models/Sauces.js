@@ -1,5 +1,7 @@
+// importation du module moongose
 const mongoose =require('mongoose');
 
+//définition d'un schéma mongoose pour les sauces
 const sauceSchema = mongoose.Schema(
     {
         userId: {
@@ -50,5 +52,5 @@ const sauceSchema = mongoose.Schema(
     },
 
 );
-
+//exportation d'un model mongoose pour les sauces, pour pouvoir l'importer depuis un autre endroit du répertoire
 module.exports = mongoose.model('Sauce', sauceSchema);

@@ -1,8 +1,7 @@
 const http = require('http');
 const app = require('./app');
-//require('./models/dbConfig');
 
-//renvoi d'un port au format approprié
+//fonction de normalisation (renvoi d'un port au format approprié (number, string or false))
 const normalizePort = val => {
     const port = parseInt(val, 10);
   
@@ -14,6 +13,8 @@ const normalizePort = val => {
     }
     return false;
   };
+//initialisation du port
+  // normalisation du port défini dans une variable d'environnement, à défaut port 3000
   const port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
   
@@ -38,7 +39,7 @@ const normalizePort = val => {
     }
   };
 
-  //création du serveur
+//création du serveur
   const server = http.createServer(app);
   
   server.on('error', errorHandler);
@@ -48,6 +49,6 @@ const normalizePort = val => {
     console.log('Listening on ' + bind);
   });
   
-  //détecteur pour savoir sur quel port le serveur s'execute
+//détecteur pour savoir sur quel port le serveur est en train de s'execute
   server.listen(port);
 
