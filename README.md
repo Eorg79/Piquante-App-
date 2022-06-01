@@ -1,5 +1,5 @@
 
-P6_Erika_Orengo: ce repository à cloner contient le front-end et le back-end de l'application.
+Piquante App: ce repository à cloner contient le front-end et le back-end de l'application.
 
 ## BACK END ## 
 créer dans le dossier back-end un fichier .env, contenant les variables d'environnement suivantes à définir (cf .env.example):
